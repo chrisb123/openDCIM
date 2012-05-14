@@ -26,6 +26,10 @@
 		$dc->ppd = $_REQUEST['ppd'];
 		$dc->start_row = $_REQUEST['start_row'];
 		$dc->start_col = $_REQUEST['start_col'];
+		#Calculae floor space based on tiles
+		if ($dc->SquareFootage == "0" ) {
+			$dc->SquareFootage = (($dc->rows*.6)*($dc->cols*.6))*10.764;
+		}
 		
 		if($_REQUEST['action']=='Create'){
 			$dc->CreateDataCenter($facDB);
@@ -85,7 +89,7 @@
 </div>
 <div>
    <div><label for="sqfootage">Square Footage</label></div>
-   <div><input type="text" name="squarefootage" id="sqfootage" size="10" value="<?php echo $dc->SquareFootage; ?>"></div>
+   <div><input type="text" name="squarefootage" id="sqfootage" size="10" value="<?php echo $dc->SquareFootage; ?>"> 1 m^2 = 10.764 feet^2</div>
 </div>
 <div>
    <div><label for="deliveryaddress">Delivery Address</label></div>
@@ -101,23 +105,23 @@
 </div>
 <div>
    <div><label for="drawingfilename">Rows</label></div>
-   <div><input type="text" name="rows" id="rows" size=60 value="<?php echo $dc->rows; ?>"></div>
+   <div><input type="text" name="rows" id="rows" size=10 value="<?php echo $dc->rows; ?>">If square footage is 0 area will be calculated</div>
 </div>
 <div>
    <div><label for="drawingfilename">Cols</label></div>
-   <div><input type="text" name="cols" id="cols" size=60 value="<?php echo $dc->cols; ?>"></div>
+   <div><input type="text" name="cols" id="cols" size=10 value="<?php echo $dc->cols; ?>">based on 600mm tiles</div>
 </div>
 <div>
    <div><label for="drawingfilename">Div</label></div>
-   <div><input type="text" name="ppd" id="ppd" size=60 value="<?php echo $dc->ppd; ?>"></div>
+   <div><input type="text" name="ppd" id="ppd" size=10 value="<?php echo $dc->ppd; ?>"></div>
 </div>
 <div>
    <div><label for="drawingfilename">Start row</label></div>
-   <div><input type="text" name="start_row" id="start_row" size=60 value="<?php echo $dc->start_row; ?>"></div>
+   <div><input type="text" name="start_row" id="start_row" size=10 value="<?php echo $dc->start_row; ?>"></div>
 </div>
 <div>
    <div><label for="drawingfilename">Start Col</label></div>
-   <div><input type="text" name="start_col" id="start_col" size=60 value="<?php echo $dc->start_col; ?>"></div>
+   <div><input type="text" name="start_col" id="start_col" size=10 value="<?php echo $dc->start_col; ?>"></div>
 </div>
 <div class="caption">
 <?php

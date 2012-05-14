@@ -16,6 +16,8 @@
 	$dc=new DataCenter();
 
 	$dc->DataCenterID=$_REQUEST["dc"];
+       # $dc->GetDataCenter($facDB);
+
 	$dcStats=$dc->GetDCStatistics($facDB);
 
 	$height=0;
@@ -143,7 +145,48 @@
 </div> <!-- END div.table -->
 </div>
 <?php
-  print $dc->MakeImageMap( $facDB );
+$rows = $dc->rows; #number of rows
+$cols = $dc->cols; #number of cols
+$div = $dc->ppd; #tile size in pixels
+$start_row = $dc->start_row;
+$start_col = $dc->start_col;
+$font = 'monofont.ttf';
+
+$x = ($cols+1) * $div +1;
+$y = ($rows+1) * $div +1;
+$img = imagecreatetruecolor($x, $y);
+
+$red = imagecolorallocate($img, 255, 0, 0);
+$green = imagecolorallocate($img, 0, 255, 0);
+$lightgreen = imagecolorallocate($img, 200, 255, 200);
+$blue = imagecolorallocate($img, 0, 0, 255);
+$white = imagecolorallocate($img, 255, 255, 255);
+$black = imagecolorallocate($img, 0,0,0);
+
+imagefilledrectangle($img, 0,0, $x, $y, $white);
+
+$k = $start_col;
+$j = $div*.1;
+for ($i = $div; $i <= $x; $i = $i + $div) {
+ imageline($img, $i, $div, $i, $y, $black);
+ $j = $j + $div;
+ if ($k < 10) { $k = "0" . $k;}
+ imagefttext($img, $div*.75, 0, $j, $div*.8, $red, $font, $k);
+ $k++;
+}
+
+$k = $start_row;
+$j = $div*.8;
+for ($i = $div; $i <= $y; $i = $i + $div) {
+ imageline($img, $div, $i, $x, $i, $black);
+ $j = $j + $div;
+ imagefttext($img, $div*.75, 0, $div*.1, $j, $red, $font, $k);
+ $k++;
+}
+imagepng($img, "drawings/dc.png");
+imagedestroy($img);
+
+print $dc->MakeImageMap( $facDB );
 ?>
 </div></div>
 </div><!-- END div.main -->

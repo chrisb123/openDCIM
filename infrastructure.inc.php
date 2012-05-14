@@ -41,6 +41,11 @@ class DataCenter {
 	var $Administrator;
 	var $DrawingFileName;
 	var $EntryLogging;
+	var $rows;
+	var $cols;
+	var $ppd;
+	var $start_row;
+	var $start_col;
 	var $dcconfig;
 
 	function CreateDataCenter( $db ) {
@@ -53,7 +58,6 @@ class DataCenter {
 
 	function UpdateDataCenter( $db ) {
 		$sql = "update fac_DataCenter set Name=\"" . addslashes( $this->Name ) . "\", SquareFootage=\"" . intval( $this->SquareFootage ) . "\", DeliveryAddress=\"" . addslashes( $this->DeliveryAddress ) . "\", Administrator=\"" . addslashes( $this->Administrator ) . "\", DrawingFileName=\"" . addslashes( $this->DrawingFileName ) . "\", EntryLogging=0 , rows=\"" . $this->rows . "\", cols=\"" . $this->cols . "\", ppd=\"" . $this->ppd . "\", start_row=\"" . $this->start_row . "\", start_col=\"" . $this->start_col . "\" where DataCenterID=" . intval( $this->DataCenterID );
- echo $sql;
 		$result = mysql_query( $sql, $db );
 	}
 
@@ -115,6 +119,11 @@ class DataCenter {
 		$this->Administrator = stripslashes($dcRow["Administrator"]);
 		$this->DrawingFileName = stripslashes($dcRow["DrawingFileName"]);
 		$this->EntryLogging = $dcRow["EntryLogging"];
+		$this->rows = $dcRow["rows"];
+		$this->cols = $dcRow["cols"];
+		$this->ppd = $dcRow["ppd"];
+		$this->start_row = $dcRow["start_row"];
+		$this->start_col = $dcRow["start_col"];
 
 		return 0;
 	}
