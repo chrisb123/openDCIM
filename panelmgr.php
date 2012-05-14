@@ -178,8 +178,8 @@
 						foreach($pduarray[$nextPole] as $pduvar){
 							$pn.="<a href=\"pduinfo.php?pduid=$pduvar->PDUID\">$pduvar->Label</a>";
 							switch($pduvar->InputVoltage){
-								case '208VAC 3-Pole': $odd=3; break;
-								case '208VAC 2-Pole': $odd=2; break;
+								case '3-Phase': $odd=3; break;
+								case '2-Phase': $odd=2; break;
 								default: $odd=0;
 							}
 						}
@@ -216,8 +216,8 @@
 						foreach($pduarray[$nextPole] as $pduvar){
 							$pn.="<a href=\"pduinfo.php?pduid=$pduvar->PDUID\">$pduvar->Label</a>";
 							switch($pduvar->InputVoltage){
-								case '208VAC 3-Pole': $odd=3; break;
-								case '208VAC 2-Pole': $odd=2; break;
+								case '3-Phase': $odd=3; break;
+								case '2-Phase': $odd=2; break;
 								default: $odd=0;
 							}
 						}
@@ -249,8 +249,8 @@
 						foreach($pduarray[$nextPole] as $pduvar){
 							$pn.="<a href=\"pduinfo.php?pduid=".$pduvar->PDUID."\">".$pduvar->Label."</a>";
 							switch($pduvar->InputVoltage){
-								case '208VAC 3-Pole': $even=3; break;
-								case '208VAC 2-Pole': $even=2; break;
+								case '3-Phase': $even=3; break;
+								case '2-Phase': $even=2; break;
 								default: $even=0;
 							}
 						}

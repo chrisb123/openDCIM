@@ -291,8 +291,8 @@ class PowerDistribution {
 
 	function BuildVoltageList() {
 		$select = "<select name=\"inputvoltage\" id=\"inputvoltage\">";
-
-		foreach( array( "208VAC 2-Pole", "208VAC 3-Pole", "110VAC" ) as $voltage ) {
+		
+		foreach( array( "2-Phase", "3-Phase", "Single Phase" ) as $voltage ) {
 			if ( $this->InputVoltage == $voltage )
 				$selected = "selected";
 			else
@@ -341,7 +341,7 @@ class PowerDistribution {
       }
       */
 
-			if ( $pduRow["InputVoltage"] == "208VAC 2-Pole" )
+			if ( $pduRow["InputVoltage"] == "2-Phase" )
 			  $threePhase = false;
 			else
 			  $threePhase = true;
