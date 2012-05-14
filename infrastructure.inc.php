@@ -52,7 +52,8 @@ class DataCenter {
 	}
 
 	function UpdateDataCenter( $db ) {
-		$sql = "update fac_DataCenter set Name=\"" . addslashes( $this->Name ) . "\", SquareFootage=\"" . intval( $this->SquareFootage ) . "\", DeliveryAddress=\"" . addslashes( $this->DeliveryAddress ) . "\", Administrator=\"" . addslashes( $this->Administrator ) . "\", DrawingFileName=\"" . addslashes( $this->DrawingFileName ) . "\", EntryLogging=0 where DataCenterID=" . intval( $this->DataCenterID );
+		$sql = "update fac_DataCenter set Name=\"" . addslashes( $this->Name ) . "\", SquareFootage=\"" . intval( $this->SquareFootage ) . "\", DeliveryAddress=\"" . addslashes( $this->DeliveryAddress ) . "\", Administrator=\"" . addslashes( $this->Administrator ) . "\", DrawingFileName=\"" . addslashes( $this->DrawingFileName ) . "\", EntryLogging=0 , rows=\"" . $this->rows . "\", cols=\"" . $this->cols . "\", ppd=\"" . $this->ppd . "\", start_row=\"" . $this->start_row . "\", start_col=\"" . $this->start_col . "\" where DataCenterID=" . intval( $this->DataCenterID );
+ echo $sql;
 		$result = mysql_query( $sql, $db );
 	}
 
@@ -67,6 +68,11 @@ class DataCenter {
 			$this->Administrator = stripslashes( $row["Administrator"] );
 			$this->DrawingFileName = stripslashes( $row["DrawingFileName"] );
 			$this->EntryLogging = $row["EntryLogging"];
+			$this->rows = $row["rows"];
+			$this->cols = $row["cols"];
+			$this->ppd = $row["ppd"];
+			$this->start_row = $row["start_row"];
+			$this->start_col = $row["start_col"];
 		}
 	}
 		

@@ -21,6 +21,11 @@
 		$dc->DeliveryAddress = $_REQUEST['deliveryaddress'];
 		$dc->Administrator = $_REQUEST['administrator'];
 		$dc->DrawingFileName = $_REQUEST['drawingfilename'];
+		$dc->rows = $_REQUEST['rows'];
+		$dc->cols = $_REQUEST['cols'];
+		$dc->ppd = $_REQUEST['ppd'];
+		$dc->start_row = $_REQUEST['start_row'];
+		$dc->start_col = $_REQUEST['start_col'];
 		
 		if($_REQUEST['action']=='Create'){
 			$dc->CreateDataCenter($facDB);
@@ -93,6 +98,26 @@
 <div>
    <div><label for="drawingfilename">Drawing URL</label></div>
    <div><input type="text" name="drawingfilename" id="drawingfilename" size=60 value="<?php echo $dc->DrawingFileName; ?>"></div>
+</div>
+<div>
+   <div><label for="drawingfilename">Rows</label></div>
+   <div><input type="text" name="rows" id="rows" size=60 value="<?php echo $dc->rows; ?>"></div>
+</div>
+<div>
+   <div><label for="drawingfilename">Cols</label></div>
+   <div><input type="text" name="cols" id="cols" size=60 value="<?php echo $dc->cols; ?>"></div>
+</div>
+<div>
+   <div><label for="drawingfilename">Div</label></div>
+   <div><input type="text" name="ppd" id="ppd" size=60 value="<?php echo $dc->ppd; ?>"></div>
+</div>
+<div>
+   <div><label for="drawingfilename">Start row</label></div>
+   <div><input type="text" name="start_row" id="start_row" size=60 value="<?php echo $dc->start_row; ?>"></div>
+</div>
+<div>
+   <div><label for="drawingfilename">Start Col</label></div>
+   <div><input type="text" name="start_col" id="start_col" size=60 value="<?php echo $dc->start_col; ?>"></div>
 </div>
 <div class="caption">
 <?php
