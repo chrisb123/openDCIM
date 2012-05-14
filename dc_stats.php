@@ -159,6 +159,7 @@ $img = imagecreatetruecolor($x, $y);
 $red = imagecolorallocate($img, 255, 0, 0);
 $green = imagecolorallocate($img, 0, 255, 0);
 $lightgreen = imagecolorallocate($img, 200, 255, 200);
+$lightgrey = imagecolorallocate($img, 222, 222, 222);
 $blue = imagecolorallocate($img, 0, 0, 255);
 $white = imagecolorallocate($img, 255, 255, 255);
 $black = imagecolorallocate($img, 0,0,0);
@@ -183,6 +184,78 @@ for ($i = $div; $i <= $y; $i = $i + $div) {
  imagefttext($img, $div*.75, 0, $div*.1, $j, $red, $font, $k);
  $k++;
 }
+
+$cab = new Cabinet();
+$cabList=$cab->ListCabinets($facDB);
+foreach($cabList as $cab) {
+$len = strlen($cab->Location);
+if ($len == 4) {
+ $yref = substr($cab->Location,0,2);
+} else {
+ $yref = substr($location,0,1);
+}
+$xref = substr($cab->Location, -2);
+$xgrid = $xref - $start_col + 1;
+
+$ygrid = 1;
+$i = $start_row;
+while($i != $yref) {
+ $i++;
+ $ygrid++;
+}
+
+$refx = $xgrid; #grid ref x
+$refy = $ygrid; #grid ref y
+$width = 600; #in mm
+$depth = 900; #in mm
+$offset = 0; #for offset racks
+$mmpd = 600; #mm per tile
+$dir = 'N'; #direction of rack;
+if ($dir == 'N') {
+ $x1 = ($refx+1)*$div-$offset/$mmpd*$div;
+ $y1 = ($refy+0)*$div;
+ $x2 = $x1-($width/$mmpd*$div);
+ $y2 = $y1+($depth/$mmpd*$div);
+ $y3 = $y1+($depth*.2/$mmpd*$div);}
+if ($dir == 'S') {
+ $x1 = ($refx+0)*$div+$offset/$mmpd*$div;
+ $y1 = ($refy+1)*$div;
+ $x2 = $x1+($width/$mmpd*$div);
+ $y2 = $y1-($depth/$mmpd*$div);
+ $y3 = $y1-($depth*.2/$mmpd*$div);}
+if ($dir == 'E') {
+ $x1 = ($refx+1)*$div;
+ $y1 = ($refy+0)*$div-$offset/$mmpd*$div;
+ $y2 = $y1+($width/$mmpd*$div);
+ $x2 = $x1-($depth/$mmpd*$div);
+ $x3 = $x1-($depth*.2/$mmpd*$div);}
+if ($dir == 'W') {
+ $x1 = ($refx+0)*$div;
+ $y1 = ($refy+0)*$div+$offset/$mmpd*$div;
+ $y2 = $y1+($width/$mmpd*$div);
+ $x2 = $x1+($depth/$mmpd*$div);
+ $x3 = $x1+($depth*.2/$mmpd*$div);}
+imagefilledrectangle($img, $x1, $y1, $x2, $y2, $lightgrey);
+#$cur_row = $start_row;
+#$jt = $i;
+#while ( $jt > 1) {
+ #$jt--;
+ #$cur_row++;
+#}
+#$cur_col = $start_col + $j - 1;
+#if ($cur_col < 10) { $cur_col = "0" . $cur_col;}
+$rn = ($yref ) . ($xref);
+if ($dir == 'N') {imagefttext($img, $div*.5,  90, $x1-$div*.2, $y1+$depth/$mmpd*$div, $red, $font, $rn);}
+if ($dir == 'S') {imagefttext($img, $div*.5, -90, $x1+$div*.2, $y1-$depth/$mmpd*$div, $red, $font, $rn);}
+if ($dir == 'E') {imagefttext($img, $div*.5,   0, $x1-$depth/$mmpd*$div*.95, $y1+$div*.8, $red, $font, $rn);}
+if ($dir == 'W') {imagefttext($img, $div*.5,   0, $x1+$div*.4, $y1+$div*.8, $red, $font, $rn);}
+if ($dir == 'N' or $dir == 'S' ) {
+ imagefilledrectangle($img, $x1, $y1, $x2, $y3, $green);
+} else {
+ imagefilledrectangle($img, $x1, $y1, $x3, $y2, $green);
+}
+}
+
 imagepng($img, "drawings/dc.png");
 imagedestroy($img);
 
