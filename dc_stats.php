@@ -187,6 +187,8 @@ for ($i = $div; $i <= $y; $i = $i + $div) {
 
 $cab = new Cabinet();
 $cabList=$cab->ListCabinets($facDB);
+$cabloc[][] = "";
+$cabnum = 0;
 foreach($cabList as $cab) {
 $len = strlen($cab->Location);
 if ($len == 4) {
@@ -236,6 +238,13 @@ if ($dir == 'W') {
  $x2 = $x1+($depth/$mmpd*$div);
  $x3 = $x1+($depth*.2/$mmpd*$div);}
 imagefilledrectangle($img, $x1, $y1, $x2, $y2, $lightgrey);
+$cabloc[$cabnum][x1] = $x1;
+$cabloc[$cabnum][y1] = $y1;
+$cabloc[$cabnum][x2] = $x2;
+$cabloc[$cabnum][y2] = $y2;
+$cabloc[$cabnum][CabinetID] = $cab->CabinetID;
+$cabloc[$cabnum][Location] = $cab->Location;
+$cabnum++;
 #$cur_row = $start_row;
 #$jt = $i;
 #while ( $jt > 1) {
@@ -259,7 +268,37 @@ if ($dir == 'N' or $dir == 'S' ) {
 imagepng($img, "drawings/dc.png");
 imagedestroy($img);
 
-print $dc->MakeImageMap( $facDB );
+$mapHTML = "";
+
+	if ( strlen($dc->DrawingFileName) > 0 ) {
+           $mapfile = "drawings/" . $dc->DrawingFileName;
+
+           if ( file_exists( $mapfile ) ) {
+             list($width, $height, $type, $attr)=getimagesize($mapfile);
+             $mapHTML.="<div class=\"canvas\">\n";
+                 $mapHTML.="<img src=\"css/blank.gif\" usemap=\"#datacenter\" width=\"$width\" height=\"$height\" alt=\"clearmap over canvas\">\n";
+             $mapHTML.="<map name=\"datacenter\">\n";
+
+         #    $selectSQL="select * from fac_Cabinet where DataCenterID=\"" . intval($this->DataCenterID) . "\"";
+          #       $result = mysql_query( $selectSQL, $db );
+
+             #while ( $cabRow = mysql_fetch_array( $result ) ) {
+               #$mapHTML.="<area href=\"cabnavigator.php?cabinetid=" . $cabRow["CabinetID"] . "\" shape=\"rect\" coords=\"" . $cabRow["MapX1"] . ", " . $cabRow["MapY1"] . ", " . $cabRow["MapX2"] . ", " . $cabRow["MapY2"] . "\" alt=\"".$cabRow["Location"]."\" title=\"".$cabRow["Location"]."\">\n";
+             foreach ( $cabloc as $cabRow ) {
+		$mapHTML.="<area href=\"cabnavigator.php?cabinetid=" . $cabRow["CabinetID"] . "\" shape=\"rect\" coords=\"" . $cabRow["x1"] . ", " . $cabRow["y1"] . ", " . $cabRow["x2"] . ", " . $cabRow["y2"] . "\" alt=\"".$cabRow["Location"]."\" title=\"".$cabRow["Location"]."\">\n";
+             }
+
+             $mapHTML.="</map>\n";
+             $mapHTML.="<canvas id=\"mapCanvas\" width=\"$width\" height=\"$height\"></canvas>\n";
+
+
+             $mapHTML .= "</div>\n";
+            }
+	}
+         print $mapHTML;
+
+
+#print $dc->MakeImageMap( $facDB );
 ?>
 </div></div>
 </div><!-- END div.main -->
