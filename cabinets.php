@@ -14,6 +14,10 @@
 
 	$cab=new Cabinet();
 	$dept=new Department();
+	$dc=new DataCenter();
+	$dc->DataCenterID=$_REQUEST['datacenterid'];
+	$dc->GetDataCenter($facDB);
+	var_dump($dc);
 
 	if(isset($_REQUEST['cabinetid'])){
 		$cab->CabinetID=$_REQUEST['cabinetid'];
@@ -30,6 +34,46 @@
 			$cab->MaxKW=$_REQUEST['maxkw'];
 			$cab->MaxWeight=$_REQUEST['maxweight'];
 			$cab->InstallationDate=$_REQUEST['installationdate'];
+
+$rows = $dc->rows; #number of rows
+$cols = $dc->cols; #number of cols
+$div = $dc->ppd; #tile size in pixels
+$start_row = $dc->start_row;
+$start_col = $dc->start_col;
+
+$len = strlen($cab->Location);
+if ($len == 4) {
+ $yref = substr($cab->Location,0,2);
+} else {
+ $yref = substr($location,0,1);
+}
+$xref = substr($cab->Location, -2);
+$xgrid = $xref - $start_col + 1;
+
+$ygrid = 1;
+$i = $start_row;
+while($i != $yref) {
+ $i++;
+ $ygrid++;
+}
+$refx = $xgrid; #grid ref x
+$refy = $ygrid; #grid ref y
+$width = 600; #in mm
+$depth = 900; #in mm
+$offset = 0; #for offset racks
+$mmpd = 600; #mm per tile
+$dir = 'N'; #direction of rack;
+if ($dir == 'N') {
+ $x1 = ($refx+1)*$div-$offset/$mmpd*$div;
+ $y1 = ($refy+0)*$div;
+ $x2 = $x1-($width/$mmpd*$div);
+ $y2 = $y1+($depth/$mmpd*$div);
+ $y3 = $y1+($depth*.2/$mmpd*$div);}
+
+			$cab->MapX1=$x1;
+			$cab->MapX2=$x2;
+			$cab->MapY1=$y1;
+			$cab->MapY2=$y2;
 			$cab->UpdateCabinet($facDB);
 		}elseif($_REQUEST['action']=='Create'){
 			$cab->DataCenterID=$_REQUEST['datacenterid'];

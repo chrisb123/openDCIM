@@ -237,7 +237,7 @@ if ($dir == 'W') {
  $y2 = $y1+($width/$mmpd*$div);
  $x2 = $x1+($depth/$mmpd*$div);
  $x3 = $x1+($depth*.2/$mmpd*$div);}
-imagefilledrectangle($img, $x1, $y1, $x2, $y2, $lightgrey);
+imagefilledrectangle($img, $MapX1, $MapY1, $MapX2, $MapY2, $lightgrey);
 $cabloc[$cabnum][x1] = $x1;
 $cabloc[$cabnum][y1] = $y1;
 $cabloc[$cabnum][x2] = $x2;
