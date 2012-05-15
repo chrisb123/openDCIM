@@ -45,6 +45,11 @@ class Cabinet {
 	var $MapY1;
 	var $MapX2;
 	var $MapY2;
+	var $MapXY;
+	var $depth;
+	var $width;
+	var $offset;
+	var $direction;
 
 	function CreateCabinet( $db ) {
 		$insert_sql = "insert into fac_Cabinet set DataCenterID=\"" . intval($this->DataCenterID) . "\", Location=\"" . addslashes($this->Location) . "\", AssignedTo=\"" . intval($this->AssignedTo) . "\", ZoneID=\"" . intval($this->ZoneID) . "\", CabinetHeight=\"" . intval($this->CabinetHeight) . "\", Model=\"" . addslashes($this->Model) . "\", MaxKW=\"" . floatval($this->MaxKW) . "\", MaxWeight=\"" . intval( $this->MaxWeight ). "\", InstallationDate=\"" . date( "Y-m-d", strtotime( $this->InstallationDate ) ) . "\", MapX1=\"" . intval($this->MapX1) . "\", MapY1=\"" . intval($this->MapY1) . "\", MapX2=\"" . intval($this->MapX2) . "\", MapY2=\"" . intval($this->MapY2) . "\"";
@@ -60,7 +65,25 @@ class Cabinet {
 	}
 
 	function UpdateCabinet( $db ) {
-		$update_sql = "update fac_Cabinet set DataCenterID=\"" . intval($this->DataCenterID) . "\", Location=\"" . addslashes($this->Location) . "\", AssignedTo=\"" . intval($this->AssignedTo) . "\", ZoneID=\"" . intval($this->ZoneID) . "\", CabinetHeight=\"" . intval($this->CabinetHeight) . "\", Model=\"" . addslashes($this->Model) . "\", MaxKW=\"" . floatval($this->MaxKW) . "\", MaxWeight=\"" . intval( $this->MaxWeight ) . "\", InstallationDate=\"" . date( "Y-m-d", strtotime( $this->InstallationDate ) ) . "\", MapX1=\"" . intval($this->MapX1) . "\", MapY1=\"" . intval($this->MapY1) . "\", MapX2=\"" . intval($this->MapX2) . "\", MapY2=\"" . intval($this->MapY2) . "\" where CabinetID=\"" . intval($this->CabinetID) . "\"";
+		$update_sql = "update fac_Cabinet set DataCenterID=\"" . intval($this->DataCenterID) . "\", 
+		    Location=\"" . addslashes($this->Location) . "\", 
+		    AssignedTo=\"" . intval($this->AssignedTo) . "\", 
+		    ZoneID=\"" . intval($this->ZoneID) . "\", 
+		    CabinetHeight=\"" . intval($this->CabinetHeight) . "\", 
+		    Model=\"" . addslashes($this->Model) . "\", 
+		    MaxKW=\"" . floatval($this->MaxKW) . "\", 
+		    MaxWeight=\"" . intval( $this->MaxWeight ) . "\", 
+		    InstallationDate=\"" . date( "Y-m-d", strtotime( $this->InstallationDate ) ) . "\", 
+		    MapX1=\"" . intval($this->MapX1) . "\", 
+		    MapY1=\"" . intval($this->MapY1) . "\", 
+		    MapX2=\"" . intval($this->MapX2) . "\", 
+		    MapY2=\"" . intval($this->MapY2) . "\", 
+		    MapXY=\"" . intval($this->MapXY) . "\", 
+		    width=\"" . intval($this->width) . "\", 
+		    depth=\"" . intval($this->depth) . "\",
+		    offset=\"" . intval($this->offset) . "\",
+		    direction=\"" . addslashes($this->direction) . "\" 
+		    where CabinetID=\"" . intval($this->CabinetID) . "\"";
 
 		if ( ! $result = mysql_query( $update_sql, $db ) ) {
 			return -1;
@@ -107,6 +130,11 @@ class Cabinet {
 		$this->MapY1 = $cabinetRow["MapY1"];
 		$this->MapX2 = $cabinetRow["MapX2"];
 		$this->MapY2 = $cabinetRow["MapY2"];
+		$this->MapXY = $cabinetRow["MapXY"];
+		$this->width = $cabinetRow["width"];
+		$this->depth = $cabinetRow["depth"];
+		$this->offset = $cabinetRow["offset"];
+		$this->direction = $cabinetRow["direction"];
 
 		return 0;
 	}
@@ -138,6 +166,9 @@ class Cabinet {
 			$cabinetList[ $cabID ]->MapY1 = $cabinetRow[ "MapY1" ];
 			$cabinetList[ $cabID ]->MapX2 = $cabinetRow[ "MapX2" ];
 			$cabinetList[ $cabID ]->MapY2 = $cabinetRow[ "MapY2" ];
+			$cabinetList[ $cabID ]->MapXY = $cabinetRow[ "MapXY" ];
+			$cabinetList[ $cabID ]->depth = $cabinetRow[ "depth" ];
+			$cabinetList[ $cabID ]->direction = $cabinetRow[ "direction" ];
 		}
 
 		return $cabinetList;

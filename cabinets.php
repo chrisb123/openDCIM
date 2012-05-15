@@ -17,7 +17,6 @@
 	$dc=new DataCenter();
 	$dc->DataCenterID=$_REQUEST['datacenterid'];
 	$dc->GetDataCenter($facDB);
-	var_dump($dc);
 
 	if(isset($_REQUEST['cabinetid'])){
 		$cab->CabinetID=$_REQUEST['cabinetid'];
@@ -34,6 +33,10 @@
 			$cab->MaxKW=$_REQUEST['maxkw'];
 			$cab->MaxWeight=$_REQUEST['maxweight'];
 			$cab->InstallationDate=$_REQUEST['installationdate'];
+			$cab->width=$_REQUEST['width'];
+			$cab->depth=$_REQUEST['depth'];
+			$cab->offset=$_REQUEST['offset'];
+			$cab->direction=$_REQUEST['direction'];
 
 $rows = $dc->rows; #number of rows
 $cols = $dc->cols; #number of cols
@@ -58,22 +61,41 @@ while($i != $yref) {
 }
 $refx = $xgrid; #grid ref x
 $refy = $ygrid; #grid ref y
-$width = 600; #in mm
-$depth = 900; #in mm
-$offset = 0; #for offset racks
+$width = $cab->width; #in mm
+$depth = $cab->depth; #in mm
+$offset = $cab->offset; #for offset racks
 $mmpd = 600; #mm per tile
-$dir = 'N'; #direction of rack;
+$dir = $cab->direction; #direction of rack;
 if ($dir == 'N') {
  $x1 = ($refx+1)*$div-$offset/$mmpd*$div;
  $y1 = ($refy+0)*$div;
  $x2 = $x1-($width/$mmpd*$div);
  $y2 = $y1+($depth/$mmpd*$div);
- $y3 = $y1+($depth*.2/$mmpd*$div);}
+ $xy = $y1+($depth*.2/$mmpd*$div);}
+if ($dir == 'S') {
+ $x1 = ($refx+0)*$div+$offset/$mmpd*$div;
+ $y1 = ($refy+1)*$div;
+ $x2 = $x1+($width/$mmpd*$div);
+ $y2 = $y1-($depth/$mmpd*$div);
+ $xy = $y1-($depth*.2/$mmpd*$div);}
+if ($dir == 'E') {
+ $x1 = ($refx+1)*$div;
+ $y1 = ($refy+0)*$div-$offset/$mmpd*$div;
+ $y2 = $y1+($width/$mmpd*$div);
+ $x2 = $x1-($depth/$mmpd*$div);
+ $xy = $x1-($depth*.2/$mmpd*$div);}
+if ($dir == 'W') {
+ $x1 = ($refx+0)*$div;
+ $y1 = ($refy+0)*$div+$offset/$mmpd*$div;
+ $y2 = $y1+($width/$mmpd*$div);
+ $x2 = $x1+($depth/$mmpd*$div);
+ $xy = $x1+($depth*.2/$mmpd*$div);}
 
 			$cab->MapX1=$x1;
 			$cab->MapX2=$x2;
 			$cab->MapY1=$y1;
 			$cab->MapY2=$y2;
+			$cab->MapXY=$xy;
 			$cab->UpdateCabinet($facDB);
 		}elseif($_REQUEST['action']=='Create'){
 			$cab->DataCenterID=$_REQUEST['datacenterid'];
@@ -84,6 +106,10 @@ if ($dir == 'N') {
 			$cab->MaxKW=$_REQUEST['maxkw'];
 			$cab->MaxWeight=$_REQUEST['maxweight'];
 			$cab->InstallationDate=$_REQUEST['installationdate'];
+			$cab->width=$_REQUEST['width'];
+			$cab->depth=$_REQUEST['depth'];
+			$cab->offset=$_REQUEST['offset'];
+			$cab->direction=$_REQUEST['direction'];
 			$cab->CreateCabinet($facDB);
 		}
 	}
@@ -99,6 +125,10 @@ if ($dir == 'N') {
 		$cab->MaxKW=null;
 		$cab->MaxWeight=null;
 		$cab->InstallationDate=date('m/d/Y');
+		$cab->width=600;
+		$cab->depth=900;
+		$cab->offset=0;
+		$cab->direction="N";
 	}
 
 	$deptList=$dept->GetDepartmentList($facDB);
@@ -184,6 +214,22 @@ if ($dir == 'N') {
 <div>
    <div>Date of Installation</div>
    <div><input type='text' name='installationdate' size='15' value='<?php echo date('m/d/Y', strtotime($cab->InstallationDate)); ?>'></div>
+</div>
+<div>
+   <div>Width</div>
+   <div><input type='text' name='width' size='15' value='<?php echo $cab->width; ?>'></div>
+</div>
+<div>
+   <div>Depth</div>
+   <div><input type='text' name='depth' size='15' value='<?php echo $cab->depth; ?>'></div>
+</div>
+<div>
+   <div>Offset</div>
+   <div><input type='text' name='offset' size='15' value='<?php echo $cab->offset; ?>'></div>
+</div>
+<div>
+   <div>Direction</div>
+   <div><input type='text' name='direction' size='15' value='<?php echo $cab->direction; ?>'></div>
 </div>
 <?php
 	if($user->WriteAccess){

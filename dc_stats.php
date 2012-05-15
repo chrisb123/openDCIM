@@ -190,78 +190,22 @@ $cabList=$cab->ListCabinets($facDB);
 $cabloc[][] = "";
 $cabnum = 0;
 foreach($cabList as $cab) {
-$len = strlen($cab->Location);
-if ($len == 4) {
- $yref = substr($cab->Location,0,2);
-} else {
- $yref = substr($location,0,1);
-}
-$xref = substr($cab->Location, -2);
-$xgrid = $xref - $start_col + 1;
+$dir = $cab->direction;
 
-$ygrid = 1;
-$i = $start_row;
-while($i != $yref) {
- $i++;
- $ygrid++;
-}
-
-$refx = $xgrid; #grid ref x
-$refy = $ygrid; #grid ref y
-$width = 600; #in mm
-$depth = 900; #in mm
-$offset = 0; #for offset racks
+#$width = 600; #in mm
+$depth = $cab->depth; #in mm
+#$offset = 0; #for offset racks
 $mmpd = 600; #mm per tile
-$dir = 'N'; #direction of rack;
-if ($dir == 'N') {
- $x1 = ($refx+1)*$div-$offset/$mmpd*$div;
- $y1 = ($refy+0)*$div;
- $x2 = $x1-($width/$mmpd*$div);
- $y2 = $y1+($depth/$mmpd*$div);
- $y3 = $y1+($depth*.2/$mmpd*$div);}
-if ($dir == 'S') {
- $x1 = ($refx+0)*$div+$offset/$mmpd*$div;
- $y1 = ($refy+1)*$div;
- $x2 = $x1+($width/$mmpd*$div);
- $y2 = $y1-($depth/$mmpd*$div);
- $y3 = $y1-($depth*.2/$mmpd*$div);}
-if ($dir == 'E') {
- $x1 = ($refx+1)*$div;
- $y1 = ($refy+0)*$div-$offset/$mmpd*$div;
- $y2 = $y1+($width/$mmpd*$div);
- $x2 = $x1-($depth/$mmpd*$div);
- $x3 = $x1-($depth*.2/$mmpd*$div);}
-if ($dir == 'W') {
- $x1 = ($refx+0)*$div;
- $y1 = ($refy+0)*$div+$offset/$mmpd*$div;
- $y2 = $y1+($width/$mmpd*$div);
- $x2 = $x1+($depth/$mmpd*$div);
- $x3 = $x1+($depth*.2/$mmpd*$div);}
 imagefilledrectangle($img, $MapX1, $MapY1, $MapX2, $MapY2, $lightgrey);
-$cabloc[$cabnum][x1] = $x1;
-$cabloc[$cabnum][y1] = $y1;
-$cabloc[$cabnum][x2] = $x2;
-$cabloc[$cabnum][y2] = $y2;
-$cabloc[$cabnum][CabinetID] = $cab->CabinetID;
-$cabloc[$cabnum][Location] = $cab->Location;
-$cabnum++;
-#$cur_row = $start_row;
-#$jt = $i;
-#while ( $jt > 1) {
- #$jt--;
- #$cur_row++;
-#}
-#$cur_col = $start_col + $j - 1;
-#if ($cur_col < 10) { $cur_col = "0" . $cur_col;}
-$rn = ($yref ) . ($xref);
-if ($dir == 'N') {imagefttext($img, $div*.5,  90, $x1-$div*.2, $y1+$depth/$mmpd*$div, $red, $font, $rn);}
-if ($dir == 'S') {imagefttext($img, $div*.5, -90, $x1+$div*.2, $y1-$depth/$mmpd*$div, $red, $font, $rn);}
-if ($dir == 'E') {imagefttext($img, $div*.5,   0, $x1-$depth/$mmpd*$div*.95, $y1+$div*.8, $red, $font, $rn);}
-if ($dir == 'W') {imagefttext($img, $div*.5,   0, $x1+$div*.4, $y1+$div*.8, $red, $font, $rn);}
+$rn = $cab->Location;
+if ($dir == 'N') {imagefttext($img, $div*.5,  90, $cab->MapX1-$div*.2, $cab->MapY1+$depth/$mmpd*$div, $red, $font, $rn);}
+if ($dir == 'S') {imagefttext($img, $div*.5, -90, $cab->MapX1+$div*.2, $cab->MapY1-$depth/$mmpd*$div, $red, $font, $rn);}
+if ($dir == 'E') {imagefttext($img, $div*.5,   0, $cab->MapX1-$depth/$mmpd*$div*.95, $cab->MapY1+$div*.8, $red, $font, $rn);}
+if ($dir == 'W') {imagefttext($img, $div*.5,   0, $cab->MapX1+$div*.4, $cab->MapY1+$div*.8, $red, $font, $rn);}
 if ($dir == 'N' or $dir == 'S' ) {
- imagefilledrectangle($img, $x1, $y1, $x2, $y3, $green);
+ imagefilledrectangle($img, $cab->MapX1, $cab->MapY1, $cab->MapX2, $cab->MapXY, $green);
 } else {
- imagefilledrectangle($img, $x1, $y1, $x3, $y2, $green);
+ imagefilledrectangle($img, $cab->MapX1, $cab->MapY1, $cab->MapXY, $cab->MapY2, $green);
 }
 }
 
@@ -284,8 +228,12 @@ $mapHTML = "";
 
              #while ( $cabRow = mysql_fetch_array( $result ) ) {
                #$mapHTML.="<area href=\"cabnavigator.php?cabinetid=" . $cabRow["CabinetID"] . "\" shape=\"rect\" coords=\"" . $cabRow["MapX1"] . ", " . $cabRow["MapY1"] . ", " . $cabRow["MapX2"] . ", " . $cabRow["MapY2"] . "\" alt=\"".$cabRow["Location"]."\" title=\"".$cabRow["Location"]."\">\n";
-             foreach ( $cabloc as $cabRow ) {
-		$mapHTML.="<area href=\"cabnavigator.php?cabinetid=" . $cabRow["CabinetID"] . "\" shape=\"rect\" coords=\"" . $cabRow["x1"] . ", " . $cabRow["y1"] . ", " . $cabRow["x2"] . ", " . $cabRow["y2"] . "\" alt=\"".$cabRow["Location"]."\" title=\"".$cabRow["Location"]."\">\n";
+             #foreach ( $cabloc as $cabRow ) {
+	     foreach($cabList as $cabRow) {
+		$mapHTML.="<area href=\"cabnavigator.php?cabinetid=" . $cabRow->CabinetID . "\" shape=\"rect\" coords=\"" . 
+		  $cabRow->MapX1 . ", " . $cabRow->MapY1 . ", " . 
+		  $cabRow->MapX2 . ", " . $cabRow->MapY2 . "\" 
+		  alt=\"".$cabRow->Location."\" title=\"".$cabRow->Location."\">\n";
              }
 
              $mapHTML.="</map>\n";
