@@ -492,7 +492,7 @@ function setPreferredLayout() {<?php if(isset($_COOKIE["layout"]) && strtolower(
 <div class="table style">
 <?php
 	//HTML content condensed for PHP logic clarity.
-	if(!is_null($pwrCords)){
+	if(!is_null($pwrCords) && $dev->PowerSupplyCount > 0){
 		// If $pwrCords is null then we're creating a device record. Skip power checking.
 		if(count($pwrCords)==0){
 			// We have no power information. Display links to PDU's in cabinet?

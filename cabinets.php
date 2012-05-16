@@ -217,19 +217,25 @@ if ($dir == 'W') {
 </div>
 <div>
    <div>Width</div>
-   <div><input type='text' name='width' size='15' value='<?php echo $cab->width; ?>'></div>
+   <div><input type='text' name='width' size='15' value='<?php echo $cab->width; ?>'>mm</div>
 </div>
 <div>
    <div>Depth</div>
-   <div><input type='text' name='depth' size='15' value='<?php echo $cab->depth; ?>'></div>
+   <div><input type='text' name='depth' size='15' value='<?php echo $cab->depth; ?>'>mm</div>
 </div>
 <div>
    <div>Offset</div>
-   <div><input type='text' name='offset' size='15' value='<?php echo $cab->offset; ?>'></div>
+   <div><input type='text' name='offset' size='15' value='<?php echo $cab->offset; ?>'>mm</div>
 </div>
 <div>
    <div>Direction</div>
-   <div><input type='text' name='direction' size='15' value='<?php echo $cab->direction; ?>'></div>
+   <div><select name='direction'>
+	<option value='N' <? if ($cab->direction == 'N') {print "selected";} ?> >North</option>
+	<option value='S' <? if ($cab->direction == 'S') {print "selected";} ?> >South</option>
+	<option value='E' <? if ($cab->direction == 'E') {print "selected";} ?> >East</option>
+	<option value='W' <? if ($cab->direction == 'W') {print "selected";} ?> >West</option>
+	</select>
+   </div>
 </div>
 <?php
 	if($user->WriteAccess){
