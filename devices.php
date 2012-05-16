@@ -9,7 +9,6 @@
 	
 	$user->UserID=$_SERVER['REMOTE_USER'];
 	$user->GetUserRights( $facDB );
-
 	if(!$user->ReadAccess){
 		// No soup for you.
 		header('Location: '.redirect());
@@ -66,7 +65,12 @@
 					if($dev->TemplateID >0){
 						$dev->UpdateWattageFromTemplate($facDB);
 					}else{
-						$dev->NominalWatts=$_REQUEST['nominalwatts'];
+						$watts = $_REQUEST['nominalwatts'];
+						$amps = $_REQUEST['amps'];
+						if ($watts == 0) {$watts = $amps * $config->ParameterArray["Voltage"];}
+						if ($amps == 0) {$amps = $watts / $config->ParameterArray["Voltage"];}
+						$dev->NominalWatts=$watts;
+						$dev->Amps=$amps;
 					}
 			
 					if($dev->Cabinet <0){
@@ -407,6 +411,10 @@ function setPreferredLayout() {<?php if(isset($_COOKIE["layout"]) && strtolower(
 		<div>
 		   <div><label for="nominalwatts">Nominal Draw (Watts)</label></div>
 		   <div><input type="text" class="optional,validate[custom[onlyNumberSp]]" name="nominalwatts" id="nominalwatts" size=6 value="<?php echo $dev->NominalWatts; ?>"></div>
+		</div>
+		<div>
+		   <div><label for="amps">Amps</label></div>
+		   <div><input type="text" class="optional,validate[float]" name="amps" id="amps" size=6 value="<?php echo $dev->Amps; ?>"></div>
 		</div>
 		<div>
 		   <div><label for="powersupplycount">Number of Power Supplies</label></div>

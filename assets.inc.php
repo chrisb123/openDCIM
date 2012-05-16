@@ -456,13 +456,18 @@ class Device {
 			$powercon->DeleteConnections( $db );
 		  }
       
-  		$update_sql = "update fac_Device set Label=\"" . addslashes($this->Label) . "\", SerialNo=\"" . addslashes($this->SerialNo) . "\", AssetTag=\"" . addslashes($this->AssetTag) . 
+  		$update_sql = "update fac_Device set Label=\"" . addslashes($this->Label) . "\", SerialNo=\"" . addslashes($this->SerialNo) . 
+			"\", AssetTag=\"" . addslashes($this->AssetTag) . 
 			"\", PrimaryIP=\"" . addslashes($this->PrimaryIP) . "\", SNMPCommunity=\"" . addslashes($this->SNMPCommunity) . "\", ESX=\"" . intval($this->ESX) . 
 			"\", Owner=\"" . addslashes($this->Owner) . "\", EscalationTimeID=\"" . intval( $this->EscalationTimeID ) . "\", EscalationID=\"" . intval( $this->EscalationID ) . 
 			"\", PrimaryContact=\"" . intval( $this->PrimaryContact ) . "\", Cabinet=\"" . intval($this->Cabinet) . "\", Position=\"" . intval($this->Position) . 
 			"\", Height=\"" . intval($this->Height) . "\", Ports=\"" . intval($this->Ports) . "\", TemplateID=\"" . intval($this->TemplateID) . 
-			"\", NominalWatts=\"" . intval($this->NominalWatts) . "\", PowerSupplyCount=\"" . intval($this->PowerSupplyCount) . "\", DeviceType=\"" . $this->DeviceType . 
-			"\", MfgDate=\"" . date("Y-m-d",strtotime($this->MfgDate)) . "\", InstallDate=\"" . date("Y-m-d",strtotime($this->InstallDate)) . "\", Notes=\"" . addslashes( $this->Notes ) . 
+			"\", NominalWatts=\"" . intval($this->NominalWatts) . 
+			"\", Amps=\"" . floatval($this->Amps) .
+			"\", PowerSupplyCount=\"" . intval($this->PowerSupplyCount) . 
+			"\", DeviceType=\"" . $this->DeviceType . 
+			"\", MfgDate=\"" . date("Y-m-d",strtotime($this->MfgDate)) . "\", InstallDate=\"" . date("Y-m-d",strtotime($this->InstallDate)) . 
+			"\", Notes=\"" . addslashes( $this->Notes ) . 
 			"\", Reservation=\"" . intval($this->Reservation) . "\" where DeviceID=\"" . intval($this->DeviceID) . "\"";
     }
 
@@ -501,6 +506,7 @@ class Device {
 		$this->Ports = $devRow["Ports"];
 		$this->TemplateID = $devRow["TemplateID"];
 		$this->NominalWatts = $devRow["NominalWatts"];
+		$this->Amps = $devRow["Amps"];
 		$this->PowerSupplyCount = $devRow["PowerSupplyCount"];
 		$this->DeviceType = $devRow["DeviceType"];
 		$this->MfgDate = $devRow["MfgDate"];
@@ -543,6 +549,7 @@ class Device {
 			$deviceList[$devID]->Ports = $deviceRow["Ports"];
 			$deviceList[$devID]->TemplateID = $deviceRow["TemplateID"];
 			$deviceList[$devID]->NominalWatts = $deviceRow["NominalWatts"];
+			$deviceList[$devID]->Amps = $deviceRow["Amps"];
 			$deviceList[$devID]->PowerSupplyCount = $deviceRow["PowerSupplyCount"];
 			$deviceList[$devID]->DeviceType = $deviceRow["DeviceType"];
 			$deviceList[$devID]->MfgDate = $deviceRow["MfgDate"];

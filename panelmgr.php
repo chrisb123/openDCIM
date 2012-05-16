@@ -163,7 +163,9 @@
 		
 		if($panel->NumberScheme=="Sequential"){
 			while($nextPole < $panel->NumberOfPoles){
-				print "<tr><td class=\"polenumber\">$nextPole</td>";
+				if ($nextPole % 3 == 0) {print "<tr><td class=\"polenumber\" bgcolor=blue>$nextPole</td>";}
+				if ($nextPole % 3 == 1) {print "<tr><td class=\"polenumber\" bgcolor=red>$nextPole</td>";}
+				if ($nextPole % 3 == 2) {print "<tr><td class=\"polenumber\" bgcolor=white>$nextPole</td>";}
 				// Someone input a pole number wrong and this one would have been skipped
 				// store the value and deal with it later.
 				if(isset($pduarray[$nextPole])&&$odd!=0){

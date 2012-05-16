@@ -192,9 +192,7 @@ $cabnum = 0;
 foreach($cabList as $cab) {
 $dir = $cab->direction;
 
-#$width = 600; #in mm
-$depth = $cab->depth; #in mm
-#$offset = 0; #for offset racks
+$depth = $cab->depth;
 $mmpd = 600; #mm per tile
 imagefilledrectangle($img, $MapX1, $MapY1, $MapX2, $MapY2, $lightgrey);
 $rn = $cab->Location;
