@@ -50,6 +50,7 @@ class Cabinet {
 	var $width;
 	var $offset;
 	var $direction;
+	var $KeyNo;
 
 	function CreateCabinet( $db ) {
 		$insert_sql = "insert into fac_Cabinet set DataCenterID=\"" . intval($this->DataCenterID) . "\", Location=\"" . addslashes($this->Location) . "\", AssignedTo=\"" . intval($this->AssignedTo) . "\", ZoneID=\"" . intval($this->ZoneID) . "\", CabinetHeight=\"" . intval($this->CabinetHeight) . "\", Model=\"" . addslashes($this->Model) . "\", MaxKW=\"" . floatval($this->MaxKW) . "\", MaxWeight=\"" . intval( $this->MaxWeight ). "\", InstallationDate=\"" . date( "Y-m-d", strtotime( $this->InstallationDate ) ) . "\", MapX1=\"" . intval($this->MapX1) . "\", MapY1=\"" . intval($this->MapY1) . "\", MapX2=\"" . intval($this->MapX2) . "\", MapY2=\"" . intval($this->MapY2) . "\"";
@@ -82,7 +83,8 @@ class Cabinet {
 		    width=\"" . intval($this->width) . "\", 
 		    depth=\"" . intval($this->depth) . "\",
 		    offset=\"" . intval($this->offset) . "\",
-		    direction=\"" . addslashes($this->direction) . "\" 
+		    direction=\"" . addslashes($this->direction) . "\", 
+		    KeyNo=\"" . intval($this->KeyNo) . "\" 
 		    where CabinetID=\"" . intval($this->CabinetID) . "\"";
 
 		if ( ! $result = mysql_query( $update_sql, $db ) ) {
@@ -135,6 +137,7 @@ class Cabinet {
 		$this->depth = $cabinetRow["depth"];
 		$this->offset = $cabinetRow["offset"];
 		$this->direction = $cabinetRow["direction"];
+		$this->KeyNo = $cabinetRow["KeyNo"];
 
 		return 0;
 	}

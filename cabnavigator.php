@@ -205,6 +205,7 @@
 		</tr>
 		</table>
 		<p>Approximate Center of Gravity: <?php print $CenterofGravity; ?> U</p>
+		<p>Key number: <?php print $cab->KeyNo; ?></p>
 	</fieldset>
 	<fieldset>
 		<legend>Power Distribution</legend>

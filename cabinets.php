@@ -37,6 +37,7 @@
 			$cab->depth=$_REQUEST['depth'];
 			$cab->offset=$_REQUEST['offset'];
 			$cab->direction=$_REQUEST['direction'];
+			$cab->KeyNo=$_REQUEST['KeyNo'];
 
 $rows = $dc->rows; #number of rows
 $cols = $dc->cols; #number of cols
@@ -110,6 +111,7 @@ if ($dir == 'W') {
 			$cab->depth=$_REQUEST['depth'];
 			$cab->offset=$_REQUEST['offset'];
 			$cab->direction=$_REQUEST['direction'];
+			$cab->KeyNo=$_REQUEST['KeyNo'];
 			$cab->CreateCabinet($facDB);
 		}
 	}
@@ -214,6 +216,10 @@ if ($dir == 'W') {
 <div>
    <div>Date of Installation</div>
    <div><input type='text' name='installationdate' size='15' value='<?php echo date('m/d/Y', strtotime($cab->InstallationDate)); ?>'></div>
+</div>
+<div>
+   <div>Key number</div>
+   <div><input type='text' name='KeyNo' size='15' value='<?php echo $cab->KeyNo; ?>'></div>
 </div>
 <div>
    <div>Width</div>

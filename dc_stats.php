@@ -159,7 +159,7 @@ $img = imagecreatetruecolor($x, $y);
 $red = imagecolorallocate($img, 255, 0, 0);
 $green = imagecolorallocate($img, 0, 255, 0);
 $lightgreen = imagecolorallocate($img, 200, 255, 200);
-$lightgrey = imagecolorallocate($img, 222, 222, 222);
+$lightgrey = imagecolorallocate($img, 200, 200, 200);
 $blue = imagecolorallocate($img, 0, 0, 255);
 $white = imagecolorallocate($img, 255, 255, 255);
 $black = imagecolorallocate($img, 0,0,0);
@@ -194,7 +194,7 @@ $dir = $cab->direction;
 
 $depth = $cab->depth;
 $mmpd = 600; #mm per tile
-imagefilledrectangle($img, $MapX1, $MapY1, $MapX2, $MapY2, $lightgrey);
+imagefilledrectangle($img, $cab->MapX1, $cab->MapY1, $cab->MapX2, $cab->MapY2, $lightgrey);
 $rn = $cab->Location;
 if ($dir == 'N') {imagefttext($img, $div*.5,  90, $cab->MapX1-$div*.2, $cab->MapY1+$depth/$mmpd*$div, $red, $font, $rn);}
 if ($dir == 'S') {imagefttext($img, $div*.5, -90, $cab->MapX1+$div*.2, $cab->MapY1-$depth/$mmpd*$div, $red, $font, $rn);}
