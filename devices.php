@@ -121,9 +121,23 @@
 			$pwrConnection->DeviceID=$dev->DeviceID;
 			$pwrCords=$pwrConnection->GetConnectionsByDevice($facDB);
 
-			if($dev->DeviceType=='Switch'){
+			if($dev->DeviceType=='Switch' || $dev->DeviceType=='Patch Panel'){
 				$networkPatches->SwitchDeviceID=$dev->DeviceID;
 				$patchList=$networkPatches->GetSwitchConnections($facDB);
+				$networkPatches->EndpointDeviceID=$dev->DeviceID;
+				$patchList2=$networkPatches->GetEndpointConnections($facDB);
+			 	#attempting swtich to switch patching
+				foreach ($patchList2 as $patchcon2) {
+					$endport = $patchcon2->EndpointPort;
+					$patchList[$endport]->SwitchDeviceID = $patchcon2->EndpointDeviceID;
+					$patchList[$endport]->SwitchPortNumber = $endport;	
+					$patchList[$endport]->EndpointDeviceID = $patchcon2->SwitchDeviceID;
+					$patchList[$endport]->EndpointPort = $patchcon2->SwitchPortNumber;	
+				}
+				echo "Switch patches<br>";
+				var_dump($patchList);
+				echo "<br>End patches<br>";
+				var_dump($patchList2);
 			}else{
 				$networkPatches->EndpointDeviceID=$dev->DeviceID;
 				$patchList=$networkPatches->GetEndpointConnections($facDB);
@@ -527,8 +541,11 @@ function setPreferredLayout() {<?php if(isset($_COOKIE["layout"]) && strtolower(
 		}      
 	}
 		  
-	if($dev->DeviceType=='Switch'){
-		echo "		<div>\n		  <div><a name=\"net\">Connections</a></div>\n		  <div>\n			<div class=\"table border\">\n				<div><div>Switch Port</div><div>Device</div><div>Device Port</div><div>Notes</div></div>\n";
+	if($dev->DeviceType=='Switch' || $dev->DeviceType=='Patch Panel'){
+		echo "		<div>\n		  <div><a name=\"net\">Connections</a></div>\n		  <div>\n			<div class=\"table border\">\n				<div><div>";
+		if ($dev->DeviceType=='Switch') {echo "Switch";}
+		if ($dev->DeviceType=='Patch Panel') {echo "Patch";}
+		echo "  Port</div><div>Device</div><div>Device Port</div><div>Notes</div></div>\n";
 		if(sizeof($patchList) >0){
 			$tmpDev=new Device();
 			  

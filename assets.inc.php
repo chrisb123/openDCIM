@@ -575,7 +575,7 @@ class Device {
 	  $row = mysql_fetch_array( $result );
 	  $targetDC = $row["DataCenterID"];
 	  
-	  $selectSQL = "select * from fac_Device a, fac_Cabinet b where a.Cabinet=b.CabinetID and b.DataCenterID=\"" . intval($targetDC) . "\" and a.DeviceType in (\"Server\",\"Appliance\",\"Switch\",\"Routing Chassis\") order by a.Label";
+	  $selectSQL = "select * from fac_Device a, fac_Cabinet b where a.Cabinet=b.CabinetID and b.DataCenterID=\"" . intval($targetDC) . "\" and a.DeviceType in (\"Server\",\"Appliance\",\"Switch\",\"Routing Chassis\",\"Patch Panel\") order by a.Label";
 	  $result = mysql_query( $selectSQL, $db );
 	  
 	  $deviceList = array();
