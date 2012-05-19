@@ -22,6 +22,16 @@
 	$connect->SwitchPortNumber=$_REQUEST['portid'];
 	  
 	$connect->GetSwitchPortConnector($facDB);
+	$endport=$_REQUEST['endport'];
+	$reverse = FALSE;
+	if ($connect->EndpointDeviceID == "" && $endport != "") { 
+		$reverse = TRUE;
+		$switchDev->DeviceID=$_REQUEST['endid'];
+		$switchDev->GetDevice($facDB);
+		$connect->SwitchDeviceID=$switchDev->DeviceID;
+		$connect->SwitchPortNumber=$_REQUEST['endport'];
+		$connect->GetSwitchPortConnector($facDB);
+	}
 	
 	if(isset($_REQUEST['action'])){
 		$connect->SwitchDeviceID=$_REQUEST['switchid'];
@@ -79,6 +89,8 @@
 <h2><?php echo $config->ParameterArray['OrgName']; ?></h2>
 <h3>Network Patch Connection</h3>
 <div class="center"><div>
+<? echo "FROM:$switchDev->Label Port:$connect->SwitchPortNumber<br>";?>
+<? if ($reverse) {echo "Patching was originally done in other direction<br>Reversing direction of patching";}?>
 <form id="patchform" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <input type="hidden" name="switchid" value="<?php echo $connect->SwitchDeviceID; ?>">
 <input type="hidden" name="portid" value="<?php echo $connect->SwitchPortNumber; ?>">

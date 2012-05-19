@@ -134,10 +134,10 @@
 					$patchList[$endport]->EndpointDeviceID = $patchcon2->SwitchDeviceID;
 					$patchList[$endport]->EndpointPort = $patchcon2->SwitchPortNumber;	
 				}
-				echo "Switch patches<br>";
-				var_dump($patchList);
-				echo "<br>End patches<br>";
-				var_dump($patchList2);
+				#echo "Switch patches<br>";
+				#var_dump($patchList);
+				#echo "<br>End patches<br>";
+				#var_dump($patchList2);
 			}else{
 				$networkPatches->EndpointDeviceID=$dev->DeviceID;
 				$patchList=$networkPatches->GetEndpointConnections($facDB);
@@ -553,7 +553,7 @@ function setPreferredLayout() {<?php if(isset($_COOKIE["layout"]) && strtolower(
 				$tmpDev->DeviceID = $patchConn->EndpointDeviceID;
 				$tmpDev->GetDevice( $facDB );
 				
-				printf( "				<div><div><a href=\"changepatch.php?switchid=%s&portid=%s\">%s</a></div><div><a href=\"devices.php?deviceid=%s\">%s</a></div><div>%s</div><div>%s</div></div>\n", $patchConn->SwitchDeviceID, $patchConn->SwitchPortNumber, $patchConn->SwitchPortNumber, $patchConn->EndpointDeviceID, $tmpDev->Label, $patchConn->EndpointPort, $patchConn->Notes );
+				printf( "				<div><div><a href=\"changepatch.php?switchid=%s&portid=%s&endid=%s&endport=%s\">%s</a></div><div><a href=\"devices.php?deviceid=%s\">%s</a></div><div>%s</div><div>%s</div></div>\n", $patchConn->SwitchDeviceID, $patchConn->SwitchPortNumber, $patchConn->EndpointDeviceID, $patchConn->EndpointPort, $patchConn->SwitchPortNumber, $patchConn->EndpointDeviceID, $tmpDev->Label, $patchConn->EndpointPort, $patchConn->Notes );
 			}
 		}      
 		echo "			</div><!-- END div.table -->\n		  </div>\n		</div>";
