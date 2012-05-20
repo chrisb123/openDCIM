@@ -36,6 +36,7 @@
 		$pdu->FirmwareVersion=$_REQUEST['firmwareversion'];
 		$pdu->PanelID=$_REQUEST['panelid'];
 		$pdu->PanelPole=$_REQUEST['panelpole'];
+		$pdu->Location=$_REQUEST['location'];
 		// If failsafe is unset clear auto transfer switch panel information
 		if(isset($_REQUEST['failsafe'])){
 			$pdu->FailSafe=1;
@@ -105,6 +106,10 @@
 <div>
    <div><label for="label">Label</label></div>
    <div><input type="text" name="label" id="label" size="50" value="<?php echo $pdu->Label; ?>"></div>
+</div>
+<div>
+   <div><label for="location">Outlet Location</label></div>
+   <div><input type="text" name="location" id="label" size="50" value="<?php echo $pdu->Location; ?>"></div>
 </div>
 <div>
    <div><label for="cabinetid">Cabinet</label></div>

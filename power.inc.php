@@ -133,6 +133,7 @@ class PowerDistribution {
 	
 	var $PDUID;
 	var $Label;
+	var $Location;
 	var $CabinetID;
 	var $InputVoltage;
 	var $InputAmperage;
@@ -161,7 +162,23 @@ class PowerDistribution {
 	}
 
 	function UpdatePDU( $db ) {
-		$update_sql = "update fac_PowerDistribution set Label=\"" . addslashes($this->Label) . "\", CabinetID=\"" . intval($this->CabinetID) . "\", InputVoltage=\"" . $this->InputVoltage . "\", InputAmperage=\"" . intval( $this->InputAmperage ) . "\", ManagementType=\"" . $this->ManagementType . "\", Model=\"" . addslashes($this->Model) . "\", NumOutputs=\"" . intval($this->NumOutputs) . "\", IPAddress=\"" . addslashes($this->IPAddress) . "\", SNMPCommunity=\"" . addslashes($this->SNMPCommunity) . "\", PanelID=\"" . intval($this->PanelID) . "\", PanelPole=\"" . intval($this->PanelPole) . "\", FailSafe=\"" . intval($this->FailSafe) . "\", PanelID2=\"" . intval($this->PanelID2) . "\", PanelPole2=\"" . intval($this->PanelPole2) . "\" where PDUID=\"" . intval($this->PDUID) . "\"";
+		$update_sql = "update fac_PowerDistribution set 
+		Label=\"" . addslashes($this->Label) . "\", 
+		Location=\"" . addslashes($this->Location) . "\", 
+		CabinetID=\"" . intval($this->CabinetID) . "\", 
+		InputVoltage=\"" . $this->InputVoltage . "\", 
+		InputAmperage=\"" . intval( $this->InputAmperage ) . "\", 
+		ManagementType=\"" . $this->ManagementType . "\", 
+		Model=\"" . addslashes($this->Model) . "\", 
+		NumOutputs=\"" . intval($this->NumOutputs) . "\", 
+		IPAddress=\"" . addslashes($this->IPAddress) . "\", 
+		SNMPCommunity=\"" . addslashes($this->SNMPCommunity) . "\", 
+		PanelID=\"" . intval($this->PanelID) . "\", 
+		PanelPole=\"" . intval($this->PanelPole) . "\", 
+		FailSafe=\"" . intval($this->FailSafe) . "\", 
+		PanelID2=\"" . intval($this->PanelID2) . "\", 
+		PanelPole2=\"" . intval($this->PanelPole2) . "\" 
+		where PDUID=\"" . intval($this->PDUID) . "\"";
 
 		return mysql_query( $update_sql, $db );
 	}
