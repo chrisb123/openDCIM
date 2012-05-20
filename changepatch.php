@@ -89,11 +89,9 @@
 <h2><?php echo $config->ParameterArray['OrgName']; ?></h2>
 <h3>Network Patch Connection</h3>
 <div class="center"><div>
-<? echo "FROM:$switchDev->Label Port:$connect->SwitchPortNumber<br>";?>
-<? if ($reverse) {echo "Patching was originally done in other direction<br>Reversing direction of patching";}?>
+<? if ($reverse) {echo "Patching was originally done in other direction<br>Reversing the direction of patching";}?>
 <form id="patchform" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <input type="hidden" name="switchid" value="<?php echo $connect->SwitchDeviceID; ?>">
-<input type="hidden" name="portid" value="<?php echo $connect->SwitchPortNumber; ?>">
 
 <?php
 	if($connect->EndpointDeviceID==0){
@@ -102,6 +100,14 @@
 ?>
 
 <div class="table">
+	<div>
+		<div><label for="fromswitch">From device:</label></div>
+		<input type="text" name="switchlabel" value="<?php echo $switchDev->Label; ?>" readonly>
+	</div>
+	<div>
+		<div><label for="fromport">Port:</label></div>
+		<input type="text" name="portid" value="<?php echo $connect->SwitchPortNumber; ?>" readonly>
+	</div>
 	<div>
 		<div><label for="endpointdeviceid">Device Attached</label></div>
 		<div><select name="endpointdeviceid" id="endpointdeviceid"><option value=-1>No Connection</option>
