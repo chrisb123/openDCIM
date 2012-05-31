@@ -309,7 +309,7 @@ class PowerDistribution {
 	function BuildVoltageList() {
 		$select = "<select name=\"inputvoltage\" id=\"inputvoltage\">";
 		
-		foreach( array( "208VAC 2-Pole", "208VAC 3-Pole", "110VAC" ) as $voltage ) {
+		foreach( array( "2-Phase", "3-Phase", "1-Phase" ) as $voltage ) {
 			if ( $this->InputVoltage == $voltage )
 				$selected = "selected";
 			else
@@ -334,33 +334,6 @@ class PowerDistribution {
 		}
 	}
   
-<<<<<<< HEAD
-  function UpdateStats( $db ) {
-    // Automatically pull the current amperage per phase from a Server Technologies SmartCDU
-    $selectSQL = "select * from fac_PowerDistribution where IPAddress<>'' and SNMPCommunity<>''";
-    $result = mysql_query( $selectSQL, $db );
-    
-    while ( $pduRow = mysql_fetch_array( $result ) ) {
-      $statsOutput = "";
-      $PDUID = $pduRow["PDUID"];
-      $serverIP = $pduRow["IPAddress"];
-      $community = $pduRow["SNMPCommunity"];
-      
-      // Find out if this unit is single-phase or three-phase
-      // $pollCommand = "/usr/bin/snmpget -v 2c -c $community $serverIP .1.3.6.1.4.1.1718.3.2.1.1.8.1 | /bin/cut -d: -f4";
-      // exec( $pollCommand, $unitCapabilities );
-      
-			/*
-			// Bit 0010 0000 is for three phase
-      if ( hexdec( $unitCapabilities[0] ) & hexdec ( 10 ) ) {
-        $threePhase = true;
-      }else {
-       	$threePhase = false;
-      }
-      */
-
-			if ( $pduRow["InputVoltage"] == "2-Phase" )
-=======
 	function UpdateStats( $db ) {
 		// Automatically pull the current amperage per phase from a Server Technologies SmartCDU
 		$selectSQL = "select * from fac_PowerDistribution where IPAddress<>'' and SNMPCommunity<>''";
@@ -372,8 +345,7 @@ class PowerDistribution {
 			$serverIP = $pduRow["IPAddress"];
 			$community = $pduRow["SNMPCommunity"];
 		  
-			if ( $pduRow["InputVoltage"] == "208VAC 2-Pole" )
->>>>>>> upstream/master
+			if ( $pduRow["InputVoltage"] == "2-Phase" )
 			  $threePhase = false;
 			else
 			  $threePhase = true;
